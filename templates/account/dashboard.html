@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="sm:pt-10 min-h-[calc(100vh-204px)] sm:min-h-[calc(100vh-168px)] h-full pt-5 bg-white">
+  <div class="pb-10">
+    {% include "includes/alerts.html" %}
+    <div class="lg:px-8 md:max-w-4xl max-w-lg px-4 mx-auto space-y-8">
+      {% if not orders %}
+      <h1 class="mb-10 text-2xl font-bold text-center">Lịch sử đặt hàng trống</h1>
+      <br />
+      <div class="mb-10 text-2xl font-bold text-center">
+        <a href="{% url 'store' %}" class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Tiếp tục mua sắm</a>
+      </div>
+      {% else %}
+      <h1 class="mb-10 text-2xl font-bold">Lịch sử đặt hàng</h1>
+      {% for order in orders %}
+      <article class="card">
+        <header class="card-header flex items-center gap-6 px-4 py-2">
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-gray-color text-sm font-bold">Mã đơn hàng</span>
+            <span class="text-sm text-gray-400">#{{order.order_number}}</span>
+          </div>
+
+          <div class="sm:flex flex-col items-start hidden gap-2">
+            <span class="text-gray-color text-sm font-bold">Ngày đặt hàng</span>
+            <span class="text-sm text-gray-400">ngày {{order.updated_at.day}} tháng {{order.updated_at.month}} năm {{order.updated_at.year}}</span>
+          </div>
+          <div class="flex flex-col items-start gap-2">
+            <span class="text-gray-color text-sm font-bold">Tổng tiền</span>
+            <span class="text-sm text-gray-400">{{order.order_total}}</span>
+          </div>
+        </header>
+        <!-- card-body .// -->
+        <table class="table rounded-b-lg">
+          {% for order_product in order_products %} {% if order_product.order.order_number == order.order_number %}
+          <tr>
+            <div class="md:flex-row md:items-end flex flex-col justify-between p-4 border-b">
+              <div class="flex items-center gap-4 pb-4">
+                <img src="{{order_product.product.images.url}}" class="w-20 h-20 border" />
+                <div class="flex flex-col items-start gap-2 max-w-[90%]">
+                  <p class="title text-gray-color mb-0 font-semibold">{{order_product.product.product_name}}</p>
+                  <var class="price text-muted">{{order_product.product_price}} VND</var>
+                </div>
+              </div>
+              <div class="md:border-none md:flex grid items-center flex-none grid-cols-2 text-center border-t">
+                <a href="{{ order_product.product.get_url }}" class="hover:text-primary-hover-color px-3 py-1 mt-4 border-r">Mua lại</a>
+                <a href="{{ order_product.product.get_url }}" class="hover:text-primary-hover-color px-3 py-1 mt-4"> Xem sản phẩm </a>
+              </div>
+            </div>
+          </tr>
+          {% endif %} {% endfor %}
+        </table>
+        <!-- table-responsive .end// -->
+      </article>
+      <!-- order-group.// -->
+      {% endfor %} {% if orders %}
+      <nav class="flex mt-4" aria-label="Page navigation sample">
+        <ul class="inline-flex items-stretch mx-auto -space-x-px">
+          {% if orders.has_previous %}
+          <li class="">
+            <a class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="{% url 'dashboard' %}?page=1">Đầu</a>
+          </li>
+          <li class="">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{orders.previous_page_number}}">Trước</a>
+          </li>
+          {% else %}
+          <li class="disabled">
+            <a class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="#">Đầu</a>
+          </li>
+          <li class="disabled">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Trước</a>
+          </li>
+          {% endif %} {% if orders.number|add:'-2' >= 1 %}
+          <li class="">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{ orders.number|add:'-2' }}">&hellip;</a>
+          </li>
+          {% endif %} {% for page in orders.paginator.page_range %} {% if orders.number|add:'-1' <= page and page <= orders.number|add:'1' %} {% if page == orders.number %}
+          <li class="active">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{ page }}">{{ page }}</a>
+          </li>
+          {% else %}
+          <li class="">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{ page }}">{{ page }}</a>
+          </li>
+          {% endif %} {% endif %} {% endfor %} {% if orders.number|add:'2' <= orders.paginator.num_pages %}
+          <li class="">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{ orders.number|add:'2' }}">&hellip;</a>
+          </li>
+          {% endif %} {% if orders.has_next %}
+          <li class="">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'dashboard' %}?page={{orders.next_page_number}}">Kế</a>
+          </li>
+          <li class="">
+            <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="{% url 'dashboard' %}?page={{ orders.paginator.num_pages }}">Cuối</a>
+          </li>
+          {% else %}
+          <li class="disabled">
+            <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Kế</a>
+          </li>
+          <li class="disabled">
+            <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="#">Cuối</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %} {% endif %}
+    </div>
+    <!-- row.// -->
+  </div>
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

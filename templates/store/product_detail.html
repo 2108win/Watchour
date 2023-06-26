@@ -1,0 +1,143 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="dark:bg-gray-900 max-w-screen-xl px-4 mx-auto bg-white">
+	<div class="pt-6">
+		<nav class="flex" aria-label="Breadcrumb">
+			<ol class="md:space-x-3 inline-flex items-center space-x-1">
+				<li class="inline-flex items-center">
+					<a href="{% url 'home' %}" class="hover:text-primary-color dark:text-gray-400 dark:hover:text-white inline-flex items-center text-sm font-medium text-gray-700">
+						<svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+						</svg>
+						Home
+					</a>
+				</li>
+				<li>
+					<div class="flex items-center">
+						<svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+						</svg>
+						<a href="{% url 'store' %}" class="hover:text-primary-color md:ml-2 dark:text-gray-400 dark:hover:text-white ml-1 text-sm font-medium text-gray-700">Category</a>
+					</div>
+				</li>
+				<li aria-current="page">
+					<div class="flex items-center">
+						<svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="md:ml-2 dark:text-gray-400 text-ellipsis ml-1 overflow-hidden text-sm font-medium text-gray-500 truncate w-[150px] sm:w-full">{{ single_product.product_name }}</span>
+					</div>
+				</li>
+			</ol>
+		</nav>
+		<section class="overflow-hidden text-gray-600">
+			<div class="py-6">
+				<div class="sm:flex-row flex flex-col justify-center">
+					<img alt="ecommerce" class="md:w-1/3 md:h-auto object-cover object-center w-full h-[350px] sm:h-[450px] rounded" src="{{ single_product.images.url }}" />
+					<form class="lg:w-1/2 lg:pl-10 lg:py-6 lg:mt-0 w-full p-4" action="{% url 'add_cart' single_product.id %}" method="POST">
+						{% csrf_token %}
+						<h2 class="text-sm tracking-widest text-gray-500">{{category.category_name}}</h2>
+						<h1 class="text-gray-color dark:text-gray-400 mb-1 text-3xl font-medium">{{ single_product.product_name}}</h1>
+						<p class="dark:text-gray-400 text-gray-500">{{ single_product.description}}</p>
+						<div class="md:flex-row sm:justify-between md:items-center flex flex-col gap-4 my-4">
+							<span class="text-gray-color dark:text-gray-400 text-2xl font-medium">{{ single_product.price}} VND</span>
+							{% if single_product.stock > 0 %}
+								{% if in_cart %}
+								<button
+									type="submit"
+									class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color w-full sm:w-fit">
+									Xem trong giỏ hàng
+								</button>
+								{% else %}
+								<button
+									type="submit"
+									class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color w-full sm:w-fit">
+									Thêm vào giỏ hàng
+								</button>
+								{% endif %}
+							{% else %}
+							<div class="focus:ring-2 focus:ring-offset-2 flex items-center justify-center px-4 py-2 ml-auto text-base font-medium text-white bg-gray-500 border border-transparent rounded-md opacity-75 cursor-not-allowed">Hết hàng</div>
+							{% endif %}
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+		<section class="p-4 mt-8">
+			<div class="sm:grid-cols-2 grid grid-cols-1 gap-4">
+				<form action="{% url 'submit_review' single_product.id %}" method="POST" class="">
+					{% csrf_token %}
+					<h5 class="text-lg font-bold">Hãy viết cảm nghĩ của bạn</h5>
+					<div class="flex flex-col gap-2 mt-4">
+						{% include "includes/alerts.html" %}
+						<label>Bạn cho mấy sao?</label>
+						<div class="rating rating-lg rating-half">
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-1 bg-primary-color border-none" type="radio" name="rating" id="rating1" value="0.5" required /><label for="rating1" title="0.5" class="half"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-2 bg-primary-color border-none" type="radio" name="rating" id="rating2" value="1" required /><label for="rating2" title="1"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-1 bg-primary-color border-none" type="radio" name="rating" id="rating3" value="1.5" required /><label for="rating3" title="1.5" class="half"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-2 bg-primary-color border-none" type="radio" name="rating" id="rating4" value="2" required /><label for="rating4" title="2"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-1 bg-primary-color border-none" type="radio" name="rating" id="rating5" value="2.5" required /><label for="rating5" title="2.5" class="half"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-2 bg-primary-color border-none" type="radio" name="rating" id="rating6" value="3" required /><label for="rating6" title="3"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-1 bg-primary-color border-none" type="radio" name="rating" id="rating7" value="3.5" required /><label for="rating7" title="3.5" class="half"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-2 bg-primary-color border-none" type="radio" name="rating" id="rating8" value="4" required /><label for="rating8" title="4"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-1 bg-primary-color border-none" type="radio" name="rating" id="rating9" value="4.5" required /><label for="rating9" title="4.5" class="half"></label>
+							<input class="mask mask-star-2 text-primary-color bg-none checked:bg-primary-color focus:bg-primary-color mask-half-2 bg-primary-color border-none" type="radio" name="rating" id="rating10" value="5" required /><label for="rating10" title="5"> </label>
+						</div>
+						Tiêu đề:
+						<input
+							type="text"
+							class="bg-gray-50 focus:ring-[#f7cc72] focus:border-[#f7cc72] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#f7cc72] dark:focus:border-[#f7cc72] block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
+							name="subject" />
+						Nội dung:
+						<textarea
+							name="review"
+							rows="4"
+							class="bg-gray-50 focus:ring-[#f7cc72] focus:border-[#f7cc72] dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#f7cc72] dark:focus:border-[#f7cc72] block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"></textarea>
+						{% if user.is_authenticated %} {% if orderproduct %}
+						<button
+							type="submit"
+							value="Submit Review"
+							class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color w-full">
+							Gửi đánh giá
+						</button>
+						{% else %}
+						<p class="italic">Bạn phải mua sản phầm này mới có thể đánh giá.</p>
+						{% endif %} {% else %}
+						<p class="italic">
+							Bạn phải đăng nhập mới có thể đánh giá.
+							<span><a href="{% url 'login' %}" class="text-primary-color hover:text-primary-hover-color underline">Đăng nhập</a></span>
+						</p>
+						{% endif %}
+					</div>
+				</form>
+				<div class="flex flex-col gap-2">
+					<h5 class="mb-2 text-lg font-bold">Đánh giá của khách hàng khác</h5>
+					{% for review in reviews %}
+					<article class="sm:flex sm:justify-start dark:bg-gray-800 dark:border-gray-700 justify-between p-4 bg-white border rounded-lg shadow-lg">
+						<div class="flex flex-col">
+							<h6 class="text-base font-bold">{{ review.user.full_name }}</h6>
+							<span class="text-sm font-light">{{review.updated_at.day}} tháng {{review.updated_at.month}} năm {{review.updated_at.year}}</span>
+							<div class="rating-star py-2">
+								<span>
+									<i class="fa fa-star text-primary-color {% if review.rating == 0.5 %}-half-o{% elif review.rating < 1 %}-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star text-primary-color {% if review.rating == 1.5 %}-half-o{% elif review.rating < 2 %}-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star text-primary-color {% if review.rating == 2.5 %}-half-o{% elif review.rating < 3 %}-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star text-primary-color {% if review.rating == 3.5 %}-half-o{% elif review.rating < 4 %}-o {% endif %}" aria-hidden="true"></i>
+									<i class="fa fa-star text-primary-color {% if review.rating == 4.5 %}-half-o{% elif review.rating < 5 %}-o {% endif %}" aria-hidden="true"></i>
+								</span>
+							</div>
+							<div class="">
+								<h6 class="text-base font-normal">{{ review.subject }}</h6>
+								<p class-"text-base font-light italic">{{ review.review }}</p>
+							</div>
+						</div>
+						<!-- icontext.// -->
+					</article>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

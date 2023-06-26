@@ -1,0 +1,39 @@
+input:focus {
+	--tw-ring-color: #f7ab0a !important;
+	border-color: #f7ab0a !important;
+}
+textarea:focus {
+	--tw-ring-color: #f7ab0a !important;
+	border-color: #f7ab0a !important;
+}
+button.active {
+	@apply text-primary-color hover:text-white border border-pribg-primary-color bg-white hover:bg-primary-color focus:ring-4 focus:outline-none focus:ring-primary-color rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-primary-color dark:text-primary-color dark:hover:text-white dark:hover:bg-primary-color dark:bg-gray-900 dark:focus:ring-primary-hover-color;
+}
+.card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 0.37rem;
+}
+.card-header {
+	background-color: #fff;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.card-header:first-child {
+	border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0;
+}
+.card-body {
+	flex: 1 1 auto;
+	padding: 1.25rem;
+}
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -10px;
+	margin-left: -10px;
+}

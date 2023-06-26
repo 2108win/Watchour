@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- ========================= SECTION MAIN ========================= -->
+{% include "includes/alerts.html" %}
+<div id="custom-controls-gallery" class="dark:bg-gray-900 relative w-full" data-carousel="slide">
+  <!-- Carousel wrapper -->
+  <div class="md:h-96 relative h-56 overflow-hidden rounded-lg">
+    <!-- Item 1 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+      <img src="{% static 'images/banners/image1.jpeg' %}" class="sm:object-cover top-1/2 left-1/2 absolute block object-contain h-auto max-w-full -translate-x-1/2 -translate-y-1/2" alt="" />
+    </div>
+    <!-- Item 2 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item="active">
+      <img src="{% static 'images/banners/image2.jpg' %}" class="sm:object-cover top-1/2 left-1/2 absolute block object-contain h-auto max-w-full -translate-x-1/2 -translate-y-1/2" alt="" />
+    </div>
+    <!-- Item 3 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+      <img src="{% static 'images/banners/image3.jpg' %}" class="sm:object-cover top-1/2 left-1/2 absolute block object-contain h-auto max-w-full -translate-x-1/2 -translate-y-1/2" alt="" />
+    </div>
+    <!-- Item 4 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+      <img src="{% static 'images/banners/image4.jpg' %}" class="sm:object-cover top-1/2 left-1/2 absolute block object-contain h-auto max-w-full -translate-x-1/2 -translate-y-1/2" alt="" />
+    </div>
+    <!-- Item 5 -->
+    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+      <img src="{% static 'images/banners/image5.jpg' %}" class="sm:object-cover top-1/2 left-1/2 absolute block object-contain h-auto max-w-full -translate-x-1/2 -translate-y-1/2" alt="" />
+    </div>
+  </div>
+  <div class="flex items-center justify-center pt-4">
+    <button type="button" class="group focus:outline-none flex items-center justify-center h-full mr-4 cursor-pointer" data-carousel-prev>
+      <span class="hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white text-gray-400">
+        <svg aria-hidden="true" class="hover:fill-primary-color w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Previous</span>
+      </span>
+    </button>
+
+    <button type="button" class="group focus:outline-none flex items-center justify-center h-full cursor-pointer" data-carousel-next>
+      <span class="hover:text-gray-900 dark:hover:text-white group-focus:text-gray-900 dark:group-focus:text-white text-gray-400">
+        <svg aria-hidden="true" class="hover:fill-primary-color w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Next</span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<section class="dark:bg-gray-900 md:py-4 md:px-6 max-w-screen-xl px-4 py-2 mx-auto">
+  <h2 class="text-primary-color text-2xl font-semibold text-left">Danh mục sản phẩm</h2>
+  <div class="md:py-8 flex flex-wrap items-center justify-center py-4">
+    <a href="#" class="border border-gray-200 hover:border-primary-color bg-transparent focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 text-gray-color dark:text-gray-400 hover:text-primary-color relative transition-all dark:hover:text-primary-color">Tất cả danh mục</a>
+    {% for category in links %}
+    <a href="{{ category.get_url }}" class="border border-gray-200 hover:border-primary-color bg-transparent focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base px-5 py-2.5 text-center mr-3 mb-3 text-gray-color hover:text-primary-color dark:text-gray-400 relative font-medium transition-all dark:hover:text-primary-color">{{ category.category_name }}</a>
+    {% endfor %}
+  </div>
+  <div class="flex items-center justify-between">
+    <h2 class="text-primary-color text-2xl font-semibold text-left">Sản phẩm bán chạy</h2>
+    <div class="group flex items-center gap-4">
+      <a href="{% url 'store' %}" class="text-gray-color group-hover:text-primary-color dark:text-gray-400 relative font-medium transition-all">Tất cả sản phẩm </a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="fill-gray-color dark:fill-gray-400 group-hover:fill-primary-color group-hover:translate-x-0 transition-transform -translate-x-3" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" /></svg>
+    </div>
+  </div>
+  <div class="lg:grid-cols-3 md:grid-cols-2 justify-items-center md:py-8 grid grid-cols-1 gap-4 py-4">
+    {% for product in products %}
+    <div class="dark:bg-gray-800 dark:border-gray-700 w-full max-w-sm border border-gray-200 rounded-lg shadow">
+      <a href="{{ product.get_url }}" class="">
+        <img class="object-scale-down rounded-t-lg h-[300px] w-full bg-white" src="{{ product.images.url }}" alt="product image" />
+      </a>
+      <div class="px-5 pt-8 pb-5">
+        <a href="{{ product.get_url }}">
+          <h5 class="dark:text-white h-14 text-ellipsis text-gray-color text-xl font-semibold tracking-tight">{{ product.product_name }}</h5>
+        </a>
+        <div class="flex items-center mt-2.5 mb-5">
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>First star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Second star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Third star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Fourth star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Fifth star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <span class="bg-blue-100 dark:bg-gray-200 text-primary-hover-color text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:text-primary-color ml-3">5.0</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="dark:text-white text-gray-color text-xl font-bold">{{ product.price }} VND</span>
+          {% if product.stock > 0 %} {% comment %}
+          <p>Còn <span class="b">{{product.stock}}</span> chiếc</p>
+          {% endcomment %}
+          <a href="{{ product.get_url }}" class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-hover-color dark:focus:ring-primary-hover-color">Thêm</a>
+          {% else %}
+          <span class="text-danger text-white bg-primary-color hover:bg-primary-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Hết hàng</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

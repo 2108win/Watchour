@@ -1,0 +1,109 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section class="py-10">
+  <div class="container px-4 mx-auto">
+    <div class="md:flex-row flex flex-col flex-wrap items-center justify-center">
+      <div class="flex items-center">
+        <div class="w-7 h-7 bg-gradient-to-br from-yellow-500 via-primary-hover-color to-primary-color inline-flex items-center justify-center mr-4 text-sm font-bold text-white rounded-full">1</div>
+        <a href="{% url 'cart' %}" class="text-primary-color font-bold">Giỏ hàng</a>
+      </div>
+      <span class="md:my-0 md:mx-8 lg:mx-16 md:rotate-0 my-4 rotate-90">
+        <svg width="18" height="14" viewbox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.5" d="M10.6667 1.16669L16.5 7.00002M16.5 7.00002L10.6667 12.8334M16.5 7.00002L1.5 7.00002" stroke="#84878A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+      <div class="flex items-center">
+        <div class="w-7 h-7 bg-gradient-to-br from-yellow-500 via-primary-hover-color to-primary-color inline-flex items-center justify-center mr-4 text-sm font-bold text-white rounded-full">2</div>
+        <a href="{% url 'checkout' %}" class="text-primary-color font-bold">Địa chỉ nhận hàng</a>
+      </div>
+      <span class="md:my-0 md:mx-8 lg:mx-16 md:rotate-0 my-4 rotate-90">
+        <svg width="18" height="14" viewbox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path opacity="0.5" d="M10.6667 1.16669L16.5 7.00002M16.5 7.00002L10.6667 12.8334M16.5 7.00002L1.5 7.00002" stroke="#84878A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+      <div class="flex items-center">
+        <div class="w-7 h-7 bg-gradient-to-br from-yellow-500 via-primary-hover-color to-primary-color inline-flex items-center justify-center mr-4 text-sm font-bold text-white rounded-full">3</div>
+        <span class="text-primary-color font-bold">Xác nhận thanh toán</span>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sm:pt-10 min-h-[calc(100vh-204px)] sm:min-h-[calc(100vh-168px)] h-full py-5 bg-white">
+  <div class="md:flex md:space-x-6 xl:px-0 justify-center max-w-5xl px-6 mx-auto">
+    <div class="md:w-2/3 rounded-lg">
+      <div class="flex flex-col gap-2 p-6 mb-6 bg-white border rounded-lg shadow-lg">
+        {% comment %} thông tin đơn hàng {% endcomment %}
+        <h2 class="text-lg font-bold">Thông tin đơn hàng</h2>
+        <div class="flex flex-col w-full gap-2 ml-2">
+          <p class="mt-1 text-base italic text-gray-700">{{ order.full_name }}</p>
+          <p class="mt-1 text-base italic text-gray-700">{{ order.email }}</p>
+          <p class="mt-1 text-base italic text-gray-700">{{ order.phone }}</p>
+          <p class="mt-1 text-base italic text-gray-700">{{ order.full_address }}</p>
+          <p class="mt-1 text-base italic text-gray-700">{{ order.ward }}, {{ order.district}}, {{ order.province }}</p>
+          {% if order.order_note %}
+          <p class="mt-1 text-base italic text-gray-700"><b>Ghi chú: </b> {{ order.order_note }}</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 p-6 mb-6 bg-white border rounded-lg shadow-lg">
+        {% comment %} thông tin đơn hàng {% endcomment %}
+        <h2 class="text-lg font-bold">Phương thức thanh toán</h2>
+        <div class="flex flex-col w-full gap-2 ml-2">
+          <p class="underline-offset-2 mt-1 text-base text-gray-700 underline">Thanh toán tiền mặt khi nhận hàng</p>
+        </div>
+      </div>
+      {% for cart_item in cart_items %}
+      <div class="sm:flex sm:justify-start justify-between p-6 mb-6 bg-white border rounded-lg shadow-lg">
+        <img src="{{ cart_item.product.images.url }}" alt="product-image" class="sm:w-40 w-full rounded-lg" />
+        <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+          <div class="sm:mt-0 mt-5">
+            <h2 class="text-lg font-bold text-gray-900">{{ cart_item.product.product_name }}</h2>
+            <p class="mt-1 text-xs text-gray-700">{{ cart_item.product.price }} VND mỗi món</p>
+          </div>
+          <div class="sm:space-y-6 sm:mt-0 sm:space-x-6 flex flex-col items-end justify-between mt-4">
+            {% comment %}
+            <div class="flex items-center justify-end border-gray-100">
+              <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white px-2 py-1 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg" type="button">
+                <i class="fa fa-minus"></i>
+              </a>
+              <input type="text" class="w-8 h-8 text-xs text-center bg-white border outline-none" value="{{ cart_item.quantity }}" />
+              <form action="{% url 'add_cart' cart_item.product.id %}" method="post">
+                {% csrf_token %}
+                <button class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white px-2 py-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg" type="submit" id="button-plus">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </form>
+            </div>
+            {% endcomment %}
+            <span class="text-base font-semibold text-gray-700">X {{cart_item.quantity}}</span>
+            <div class="flex items-center space-x-4">
+              <p class="text-sm">{{ cart_item.sub_total }} VND</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+    <!-- Sub total -->
+    <div class="md:mt-0 md:w-1/3 h-full p-6 mt-6 bg-white border rounded-lg shadow-lg">
+      <div class="flex justify-between mb-2">
+        <p class="text-gray-700">Tổng giá</p>
+        <p class="text-gray-700">{{ total }}</p>
+      </div>
+      <div class="flex justify-between">
+        <p class="text-gray-700">Thuế</p>
+        <p class="text-gray-700">{{ tax }}</p>
+      </div>
+      <hr class="my-4" />
+      <div class="flex justify-between">
+        <p class="text-lg font-bold">Tổng cộng</p>
+        <p class="mb-1 text-lg font-bold">{{ grand_total }}</p>
+      </div>
+      <a href="{% url 'order_complete' %}?order_number={{order.order_number}}" class="block mt-4 w-full text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Xác nhận thanh toán</a>
+      <a href="{% url 'store' %}" class="block w-full focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-hover-color hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white leading-tight text-gray-500 bg-white border border-gray-300 mt-4">Tiếp tục mua sắm</a>
+    </div>
+  </div>
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}

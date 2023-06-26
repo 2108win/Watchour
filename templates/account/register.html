@@ -1,0 +1,150 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="bg-gray-50 dark:bg-gray-900">
+  <div
+    class="min-h-[calc(100vh-168px)] h-full flex flex-col items-center justify-center px-6 py-8 mx-auto">
+    <form
+      action="{% url 'register' %}"
+      method="POST"
+      class="dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full bg-white rounded-lg shadow">
+      <div class="md:space-y-6 sm:p-8 p-6 space-y-4">
+        <form class="md:space-y-6 space-y-4" action="{% url 'login' %}" method="POST">
+          <h1
+            class="md:text-2xl dark:text-white text-xl font-bold leading-tight tracking-tight text-center text-gray-900">
+            Watchour
+          </h1>
+          {% csrf_token %}
+          <div class="grid grid-cols-2 gap-4 mb-2">
+            <div>
+              <label
+                for="last_name"
+                class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+                >Họ</label
+              >
+              {{form.last_name}}
+            </div>
+            <div>
+              <label
+                for="first_name"
+                class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+                >Tên</label
+              >
+              {{form.first_name}}
+            </div>
+          </div>
+          <div>
+            <label for="email" class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+              >Email</label
+            >
+            {{form.email}}
+          </div>
+          <div>
+            <label
+              for="phone_number"
+              class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+              >Số điện thoại</label
+            >
+            {{form.phone_number}}
+          </div>
+          <div>
+            <label
+              for="password"
+              class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+              >Mật khẩu</label
+            >
+            {{form.password}}
+          </div>
+          <div>
+            <label
+              for="confirm_password"
+              class="dark:text-white block mb-2 text-sm font-medium text-gray-900"
+              >Nhập lại mật khẩu</label
+            >
+            {{form.confirm_password}}
+          </div>
+          <button
+            type="submit"
+            class="w-full text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-hover-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">
+            Đăng ký
+          </button>
+          <p class="dark:text-gray-400 text-sm font-light text-gray-500">
+            Đã có tài khoản?
+            <a
+              href="{% url 'login' %}"
+              class="text-primary-600 hover:underline dark:text-primary-500 font-medium"
+              >Đăng nhập</a
+            >
+          </p>
+          {{ form.email.errors }} {{ form.non_field_errors }}
+        </form>
+      </div>
+    </form>
+  </div>
+</section>
+{% comment %}
+<section class="section-content padding-y">
+  <div class="card mx-auto" style="max-width: 520px; margin-top: 40px">
+    <article class="card-body">
+      {% include "includes/alerts.html" %}
+      <header class="mb-4">
+        <h4 class="card-title">Đăng ký</h4>
+      </header>
+      <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col form-group">
+            <label>Họ</label>
+            {{ form.last_name }}
+          </div>
+          <!-- form-group end.// -->
+          <div class="col form-group">
+            <label>Tên</label>
+            {{ form.first_name }}
+          </div>
+          <!-- form-group end.// -->
+        </div>
+        <!-- form-row end.// -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Email</label>
+            {{ form.email }} {% comment %}
+            <small class="form-text text-muted"
+              >We'll never share your email with anyone else.</small
+            >
+          </div>
+          <!-- form-group end.// -->
+          <div class="form-group col-md-6">
+            <label>Số điện thoại</label>
+            {{ form.phone_number }}
+          </div>
+          <!-- form-group end.// -->
+        </div>
+        <!-- form-row.// -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Mật khẩu</label>
+            {{ form.password }}
+          </div>
+          <!-- form-group end.// -->
+          <div class="form-group col-md-6">
+            <label>Nhập lại mật khẩu</label>
+            {{ form.confirm_password }}
+          </div>
+          <!-- form-group end.// -->
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+        </div>
+        <!-- form-group// -->
+        {{ form.email.errors }} {{ form.non_field_errors }}
+      </form>
+    </article>
+    <!-- card-body.// -->
+  </div>
+  <!-- card .// -->
+  <p class="mt-4 text-center">Bạn đã có tài khoản? <a href="{% url 'login' %}"> Đăng nhập </a></p>
+  <br /><br />
+</section>
+{% endcomment %}
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

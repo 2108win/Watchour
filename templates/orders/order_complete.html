@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="flex flex-col items-center gap-10 text-center">
+  <i class="fas fa-check-circle mt-10" style="font-size: 72px; margin-bottom: 20px; color: #f7ab0a"></i>
+  <h2 class="text-center">Thanh toán thành công</h2>
+  <a href="{% url 'store' %}" class="mt-4 text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Tiếp tục mua sắm</a>
+  <div class="bg-[#f1f1f1] sm:mx-auto w-full sm:w-4/5 md:w-3/5 p-10 mx-5 my-5">
+    <div class="">
+      <div class="sm:flex-row flex flex-col justify-between gap-8">
+        <h1 class="text-3xl font-bold">Đơn hàng #{{ order_number }}</h1>
+        <div class="flex flex-col items-end text-base">
+          <img src="{% static '/images/logo.png' %}" alt="Logo" class="w-16 sm:max-w-[100px]" />
+          <p class="dark:text-white block font-bold text-gray-900">{{user.first_name}} {{user.last_name}}</p>
+          <p class="dark:text-white block text-gray-900">{{user.email}}</p>
+          <p class="dark:text-white block text-gray-900">{{ order.created_at }}</p>
+        </div>
+      </div>
+      <div class="">
+        <div class="text-left">
+          <ul class="list-none">
+            <li><strong>Địa chỉ nhận hàng</strong></li>
+            <li>{{ order.full_name }}</li>
+            <li>{{ order.full_address }}</li>
+            <li>{{ order.ward }}, {{ order.district }}, {{ order.province }}</li>
+          </ul>
+        </div>
+        <div class="sm:p-9 p-4">
+          <div class="mt-8">
+            <table class="divide-slate-500 min-w-full divide-y table-auto">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-normal text-slate-700 sm:pl-6 md:pl-0">Sản phẩm</th>
+                  <th scope="col" class="hidden py-3.5 px-3 text-right text-sm font-normal text-slate-700 sm:table-cell">Số lượng</th>
+                  <th scope="col" class="py-3.5 pl-3 text-right text-sm font-normal text-slate-700">Tổng cộng</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in ordered_products %}
+                <tr class="border-slate-200 border-b">
+                  <td class="sm:pl-6 md:pl-0 flex items-start py-4 pl-4 pr-3 text-sm">
+                    <img src="{{ item.product.images.url}}" class="object-contain w-10 h-10" />
+                    <div class="text-slate-700 flex-1 font-medium">{{ item.product.product_name }}</div>
+                  </td>
+                  <td class="text-slate-500 sm:table-cell hidden px-3 py-4 text-sm text-right">{{ item.quantity }}</td>
+                  <td class="text-slate-500 sm:pr-6 md:pr-0 py-4 pl-3 text-sm text-right">{{ item.product.price|floatformat:2 }} VND</td>
+                </tr>
+                {% endfor %}
+                <!-- Here you can write more products/tasks that you want to charge for-->
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th scope="row" colspan="2" class="text-slate-700 sm:table-cell md:pl-0 hidden pt-4 pl-6 pr-3 text-sm font-normal text-right">Tổng cộng</th>
+                  <th scope="row" class="text-slate-700 sm:hidden pt-4 pl-4 pr-3 text-sm font-normal text-left">Tổng cộng</th>
+                  <td class="text-slate-700 sm:pr-6 md:pr-0 pt-4 pl-3 pr-4 text-sm font-normal text-right">{{ order.order_total }} VND</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="mt-10">
+          <p class="text-center">Cảm ơn bạn đã mua hàng!</p>
+        </div>
+        {% comment %}
+        <div class="">
+          <!-- col-lg-12 start here -->
+          <div class="invoice-items">
+            <div class="table-responsive" style="overflow: hidden; outline: none" tabindex="0">
+              <table class="table-auto">
+                <thead>
+                  <tr>
+                    <th class="">Sản phẩm</th>
+                    <th class="">Số lượng</th>
+                    <th class="">Tổng cộng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for item in ordered_products %}
+                  <tr>
+                    <td>
+                      <figure class="">
+                        <div class=""></div>
+                        <figcaption class="info">{{ item.product.product_name }}</figcaption>
+                      </figure>
+                    </td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-center">{{ item.product_price }} VND</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="2" class="text-right">Giá sách:</th>
+                    <th class="text-center">{{ subtotal }} VND</th>
+                  </tr>
+                  <tr>
+                    <th colspan="2" class="text-right">Thuế:</th>
+                    <th class="text-center">{{ order.tax }} VND</th>
+                  </tr>
+                  <tr>
+                    <th colspan="2" class="text-right">Tổng tiền:</th>
+                    <th class="text-center">{{ order.order_total }} VND</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

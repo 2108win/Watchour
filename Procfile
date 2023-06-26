@@ -1,0 +1,1 @@
+web gunicorn Watchour.wsgi:application --log-file -

@@ -1,0 +1,218 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="min-h-[calc(100vh-204px)] sm:min-h-[calc(100vh-168px)] h-full bg-white dark:bg-gray-900">
+  {% if not cart_items %}
+  <h1 class="mb-10 text-2xl font-bold text-center">Giỏ hàng trống</h1>
+  <br />
+  <div class="mb-10 text-2xl font-bold text-center">
+    <a href="{% url 'store' %}" class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Tiếp tục mua sắm</a>
+  </div>
+  {% else %}
+  <section class="py-10">
+    <div class="container px-4 mx-auto">
+      <div class="md:flex-row flex flex-col flex-wrap items-center justify-center">
+        <div class="flex items-center">
+          <div class="w-7 h-7 bg-gradient-to-br from-yellow-500 via-primary-hover-color to-primary-color inline-flex items-center justify-center mr-4 text-sm font-bold text-white rounded-full">1</div>
+          <span class="text-primary-color font-bold">Giỏ hàng</span>
+        </div>
+        <span class="md:my-0 md:mx-8 lg:mx-16 md:rotate-0 my-4 rotate-90">
+          <svg width="18" height="14" viewbox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.5" d="M10.6667 1.16669L16.5 7.00002M16.5 7.00002L10.6667 12.8334M16.5 7.00002L1.5 7.00002" stroke="#84878A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <div class="flex items-center">
+          <div class="w-7 h-7 inline-flex items-center justify-center mr-4 text-sm font-bold text-white bg-gray-300 rounded-full">2</div>
+          <span class="hover:text-gray-hover-color font-bold text-gray-300">Địa chỉ nhận hàng</span>
+        </div>
+        <span class="md:my-0 md:mx-8 lg:mx-16 md:rotate-0 my-4 rotate-90">
+          <svg width="18" height="14" viewbox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.5" d="M10.6667 1.16669L16.5 7.00002M16.5 7.00002L10.6667 12.8334M16.5 7.00002L1.5 7.00002" stroke="#84878A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <div class="flex items-center">
+          <div class="w-7 h-7 inline-flex items-center justify-center mr-4 text-sm font-bold text-white bg-gray-300 rounded-full">3</div>
+          <span class="hover:text-gray-hover-color font-bold text-gray-300">Xác nhận thanh toán</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="md:flex md:space-x-6 xl:px-0 justify-center max-w-5xl px-6 mx-auto">
+    <div class="md:w-2/3 rounded-lg">
+      {% for cart_item in cart_items %}
+      <div class="sm:flex sm:justify-start dark:bg-gray-800 dark:border-gray-700 justify-between p-6 mb-6 bg-white border rounded-lg shadow-lg">
+        <img src="{{ cart_item.product.images.url }}" alt="product-image" class="sm:w-40 w-full rounded-lg" />
+        <div class="sm:ml-4 sm:flex sm:w-full sm:justify-between">
+          <div class="sm:mt-0 mt-5">
+            <h2 class="text-gray-color dark:text-gray-400 text-lg font-bold">{{ cart_item.product.product_name }}</h2>
+            <p class="dark:text-gray-400 mt-1 text-xs text-gray-700">{{ cart_item.product.price }} VND mỗi món</p>
+          </div>
+          <div class="sm:space-y-6 sm:mt-0 sm:block sm:space-x-6 flex justify-between mt-4">
+            {% comment %}
+            <form action="{% url 'add_cart' cart_item.product.id %}" method="post" class="flex items-center border-gray-100">
+              {% csrf_token %}
+              <span class="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-primary-color hover:text-blue-50"> - </span>
+              <input class="w-8 h-8 text-xs text-center bg-white border outline-none" type="number" value="2" min="1" />
+              <span class="hover:bg-primary-color hover:text-blue-50 px-3 py-1 duration-100 bg-gray-100 rounded-r cursor-pointer"> + </span>
+            </form>
+            {% endcomment %}
+            <div class="flex items-center justify-end border-gray-100">
+              <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white dark:bg-gray-700 px-2 py-1 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg" type="button">
+                <i class="fa fa-minus"></i>
+              </a>
+              <input type="text" class="dark:bg-gray-700 w-8 h-8 text-xs text-center bg-white border outline-none" value="{{ cart_item.quantity }}" />
+              <form action="{% url 'add_cart' cart_item.product.id %}" method="post">
+                {% csrf_token %}
+                <button class="hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:bg-gray-700 dark:hover:text-white px-2 py-1 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg" type="submit" id="button-plus">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </form>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <p class="text-sm">{{ cart_item.sub_total }} VND</p>
+              <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="hover:text-red-500 w-5 h-5 duration-150 cursor-pointer">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+    <!-- Sub total -->
+    <div class="md:mt-0 md:w-1/3 dark:bg-gray-900 dark:border-gray-700 h-full p-6 mt-6 bg-white border rounded-lg shadow-lg">
+      <div class="flex justify-between mb-2">
+        <p class="dark:text-gray-400 text-gray-700">Tổng giá</p>
+        <p class="dark:text-gray-400 text-gray-700">{{ total }}</p>
+      </div>
+      <div class="flex justify-between">
+        <p class="dark:text-gray-400 text-gray-700">Thuế</p>
+        <p class="dark:text-gray-400 text-gray-700">{{ tax }}</p>
+      </div>
+      <hr class="my-4" />
+      <div class="flex justify-between">
+        <p class="text-lg font-bold">Tổng cộng</p>
+        <p class="mb-1 text-lg font-bold">{{ grand_total }}</p>
+      </div>
+      <a href="{% url 'checkout' %}" class="block mt-4 w-full text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Tiếp tục</a>
+      <a href="{% url 'store' %}" class="block w-full focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-hover-color hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white leading-tight text-gray-500 bg-white border border-gray-300 mt-4">Tiếp tục mua sắm</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% comment %}
+<section class="section-content padding-y bg">
+  <div class="container">
+    <!-- ============================ COMPONENT 1 ================================= -->
+    {% if not cart_items %}
+    <h2 class="text-center">Giỏ hàng trống</h2>
+    <br />
+    <div class="text-center">
+      <a href="{% url 'store' %}" class="btn btn-primary">Tiếp tục mua sắm</a>
+    </div>
+    {% else %}
+    <div class="row">
+      <aside class="col-lg-9">
+        <div class="card">
+          <table class="table-borderless table-shopping-cart table">
+            <thead class="text-muted">
+              <tr class="small text-uppercase">
+                <th scope="col">Sản phẩm</th>
+                <th scope="col" width="120">Số lượng</th>
+                <th scope="col" width="120">Giá</th>
+                <th scope="col" class="text-right" width="200"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for cart_item in cart_items %}
+              <tr>
+                <td>
+                  <figure class="itemside align-items-center">
+                    <div class="aside">
+                      <img src="{{ cart_item.product.images.url }}" class="img-sm" />
+                    </div>
+                    <figcaption class="info">
+                      <a href="{{ cart_item.product.get_url }}" class="title text-dark">{{ cart_item.product.product_name }}</a>
+                    </figcaption>
+                  </figure>
+                </td>
+                <td>
+                  <!-- col.// -->
+                  <div class="col">
+                    <div class="input-group input-spinner">
+                      <div class="input-group-prepend">
+                        <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}" class="btn btn-light" type="button">
+                          <i class="fa fa-minus"></i>
+                        </a>
+                      </div>
+                      <input type="text" class="form-control" value="{{ cart_item.quantity }}" />
+                      <div class="input-group-append">
+                        <form action="{% url 'add_cart' cart_item.product.id %}" method="post">
+                          {% csrf_token %}
+                          <button class="btn btn-light" type="submit" id="button-plus">
+                            <i class="fa fa-plus"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- input-group.// -->
+                  </div>
+                  <!-- col.// -->
+                </td>
+                <td>
+                  <div class="price-wrap">
+                    <var class="price">{{ cart_item.sub_total }} VND</var>
+                    <small class="text-muted"> {{ cart_item.product.price }} VND mỗi món </small>
+                  </div>
+                  <!-- price-wrap .// -->
+                </td>
+                <td class="text-right">
+                  <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" class="btn btn-danger"> Xóa</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- card.// -->
+      </aside>
+      <!-- col.// -->
+      <aside class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <dl class="dlist-align">
+              <dt>Tổng giá:</dt>
+              <dd class="text-right">{{ total }} VND</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Thuế:</dt>
+              <dd class="text-right">{{ tax }} VND</dd>
+            </dl>
+            <dl class="dlist-align">
+              <dt>Tổng cộng:</dt>
+              <dd class="text-dark b text-right">
+                <strong>{{ grand_total }} VND</strong>
+              </dd>
+            </dl>
+            <hr />
+
+            <a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Thanh toán </a>
+            <a href="{% url 'store' %}" class="btn btn-light btn-block">Tiếp tục mua sắm</a>
+          </div>
+          <!-- card-body.// -->
+        </div>
+        <!-- card.// -->
+      </aside>
+      <!-- col.// -->
+    </div>
+    <!-- row.// -->
+    <!-- ============================ COMPONENT 1 END .// ================================= -->
+    {% endif %}
+  </div>
+  <!-- container .//  -->
+</section>
+{% endcomment %}
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

@@ -1,0 +1,254 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<!-- ========================= SECTION PAGETOP ========================= -->
+{% comment %}
+<section class="section-pagetop bg">
+  <div class="container">
+    <h2 class="title-page">Cửa hàng</h2>
+  </div>
+  <!-- container //  -->
+</section>
+{% endcomment %}
+<div class="dark:bg-gray-900 flex flex-col justify-between md:py-4 md:px-6 max-w-screen-xl px-4 py-2 mx-auto min-h-[calc(100vh-204px)] sm:min-h-[calc(100vh-168px)] h-full">
+  <div class="md:px-2 mb-4">
+    <button id="dropdownDividerButton" data-dropdown-toggle="dropdownDivider" class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:ring-primary-color focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-primary-color dark:hover:bg-primary-hover-color" type="button">
+      Danh mục sản phẩm <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+    </button>
+    <!-- Dropdown menu -->
+    <div id="dropdownDivider" class="w-44 dark:bg-gray-700 dark:divide-gray-600 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow">
+      <div class="py-2">
+        <a href="{% url 'store' %}" class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white block px-4 py-2 text-sm text-gray-700">Tất cả sản phẩm</a>
+      </div>
+      <ul class="dark:text-gray-200 py-2 text-sm text-gray-700" aria-labelledby="dropdownDividerButton">
+        {% for category in links %}
+        <li>
+          <a href="{{ category.get_url }}" class="hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white block px-4 py-2">{{ category.category_name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="lg:grid-cols-3 md:grid-cols-2 justify-items-center grid grid-cols-1 gap-4">
+    {% for product in products %} {% comment %} chỉ in ra những product có category bằng với category đã chọn bên trên {% endcomment %}
+    <div class="dark:bg-gray-800 dark:border-gray-700 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+      <a href="{{ product.get_url }}" class="">
+        <img class="bg-white object-scale-down rounded-t-lg h-[300px] w-full" src="{{ product.images.url }}" alt="product image" />
+      </a>
+      <div class="px-5 pt-8 pb-5">
+        <a href="{{ product.get_url }}">
+          <h5 class="h-14 text-ellipsis dark:text-white text-xl font-semibold tracking-tight text-gray-900">{{ product.product_name }}</h5>
+        </a>
+        <div class="flex items-center mt-2.5 mb-5">
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>First star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Second star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Third star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Fourth star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Fifth star</title>
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+          </svg>
+          <span class="bg-blue-100 text-primary-hover-color text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-primary-color ml-3">5.0</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="dark:text-white text-xl font-bold text-gray-900">{{ product.price }} VND</span>
+          {% if product.stock > 0 %} {% comment %}
+          <p>Còn <span class="b">{{product.stock}}</span> chiếc</p>
+          {% endcomment %}
+          <a href="{{ product.get_url }}" class="text-white bg-primary-color hover:bg-primary-hover-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-hover-color dark:focus:ring-primary-hover-color">Thêm</a>
+          {% else %}
+          <span class="text-danger text-white bg-primary-color hover:bg-primary-color focus:ring-4 focus:outline-none focus:ring-primary-color font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-color dark:hover:bg-primary-color dark:focus:ring-primary-hover-color">Hết hàng</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <nav class="flex mt-4" aria-label="Page navigation sample">
+    <ul class="inline-flex items-stretch mx-auto -space-x-px">
+      {% if products.has_previous %}
+      <li class="">
+        <a class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="{% url 'store' %}?page=1">Đầu</a>
+      </li>
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{products.previous_page_number}}">Trước</a>
+      </li>
+      {% else %}
+      <li class="disabled">
+        <a class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="#">Đầu</a>
+      </li>
+      <li class="disabled">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Trước</a>
+      </li>
+      {% endif %} {% if products.number|add:'-2' >= 1 %}
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ products.number|add:'-2' }}">&hellip;</a>
+      </li>
+      {% endif %} {% for page in products.paginator.page_range %} {% if products.number|add:'-1' <= page and page <= products.number|add:'1' %} {% if page == products.number %}
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+      </li>
+      {% else %}
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+      </li>
+      {% endif %} {% endif %} {% endfor %} {% if products.number|add:'2' <= products.paginator.num_pages %}
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ products.number|add:'2' }}">&hellip;</a>
+      </li>
+      {% endif %} {% if products.has_next %}
+      <li class="">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{products.next_page_number}}">Kế</a>
+      </li>
+      <li class="">
+        <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="{% url 'store' %}?page={{ products.paginator.num_pages }}">Cuối</a>
+      </li>
+      {% else %}
+      <li class="disabled">
+        <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Kế</a>
+      </li>
+      <li class="disabled">
+        <a class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white text-sm" href="#">Cuối</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+<!-- ========================= SECTION INTRO END// ========================= -->
+<!-- ========================= SECTION CONTENT ========================= -->
+{% comment %}
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <aside class="col-md-2">
+        <div class="card">
+          <article class="filter-group">
+            <header class="card-header">
+              <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Thể loại</h6>
+              </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_1">
+              <div class="card-body">
+                <ul class="list-menu">
+                  <li><a href="{% url 'store' %}">Tất cả sản phẩm</a></li>
+                  {% for category in links %}
+                  <li>
+                    <a href="{{ category.get_url }}">{{ category.category_name }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <!-- card-body.// -->
+            </div>
+          </article>
+        </div>
+        <!-- card.// -->
+      </aside>
+      <!-- col.// -->
+      <main class="col-md-10">
+        <header class="border-bottom pb-3 mb-4">
+          <div class="form-inline">
+            <span class="mr-md-auto">Tìm thấy <b>{{ product_count }}</b> món </span>
+          </div>
+        </header>
+        <!-- sect-heading -->
+
+        <div class="row">
+          {% for product in products %}
+          <div class="col-md-4">
+            <figure class="card card-product-grid">
+              <div class="img-wrap">
+                <img src="{{ product.images.url }}" />
+              </div>
+              <figcaption class="info-wrap">
+                <div class="fix-height">
+                  <a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>
+                  <div class="price-wrap mt-2">
+                    <span class="price">{{ product.price }} VND</span>
+                  </div>
+                </div>
+                {% if product.stock > 0 %}
+                <p>Còn <span class="b">{{product.stock}}</span> cuốn</p>
+                {% else %}
+                <h5 class="text-danger">Hết hàng</h5>
+                {% endif %}
+                <a href="{{ product.get_url }}" class="btn btn-block btn-primary">Xem chi tiết</a>
+              </figcaption>
+            </figure>
+          </div>
+          {% endfor %}
+        </div>
+        {% if products %}
+        <nav class="mt-4" aria-label="Page navigation sample">
+          <ul class="pagination">
+            {% if products.has_previous %}
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page=1">Đầu</a>
+            </li>
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{products.previous_page_number}}">Trước</a>
+            </li>
+            {% else %}
+            <li class="disabled">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Đầu</a>
+            </li>
+            <li class="disabled">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Trước</a>
+            </li>
+            {% endif %} {% if products.number|add:'-2' >= 1 %}
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ products.number|add:'-2' }}">&hellip;</a>
+            </li>
+            {% endif %} {% for page in products.paginator.page_range %} {% if products.number|add:'-1' <= page and page <= products.number|add:'1' %} {% if page == products.number %}
+            <li class="active">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+            </li>
+            {% else %}
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ page }}">{{ page }}</a>
+            </li>
+            {% endif %} {% endif %} {% endfor %} {% if products.number|add:'2' <= products.paginator.num_pages %}
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ products.number|add:'2' }}">&hellip;</a>
+            </li>
+            {% endif %} {% if products.has_next %}
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{products.next_page_number}}">Kế</a>
+            </li>
+            <li class="">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="{% url 'store' %}?page={{ products.paginator.num_pages }}">Cuối</a>
+            </li>
+            {% else %}
+            <li class="disabled">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Kế</a>
+            </li>
+            <li class="disabled">
+              <a class="hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white flex items-center justify-center px-3 py-2 text-sm leading-tight text-gray-500 bg-white border border-gray-300" href="#">Cuối</a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      </main>
+      <!-- col.// -->
+    </div>
+  </div>
+  <!-- container .//  -->
+</section>
+{% endcomment %}
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}
