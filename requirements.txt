@@ -12,11 +12,9 @@ dj-database-url==2.0.0
 Django==4.0.4
 django-appconf==1.0.5
 django-compressor==4.3.1
-django-heroku==0.3.1
 django-livereload-server==0.4
 djangorestframework==3.14.0
 executing==1.2.0
-gunicorn==20.1.0
 idna==3.4
 ipykernel==6.23.0
 ipython==8.13.2

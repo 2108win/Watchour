@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from django.contrib import messages
 from pathlib import Path
 import os
-import django_heroku
-import dj_database_url
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +27,7 @@ SECRET_KEY = 'django-insecure-o$y%*o^+^f%-)s=%-n=w@q+-!crfp41h)!%yz-l+1@x&3_b8w_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -161,5 +159,3 @@ COMPRESS_ROOT = BASE_DIR / 'static'
 COMPRESS_ENABLED = True
 
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
-
-django_heroku.settings(locals())
