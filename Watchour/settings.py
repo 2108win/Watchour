@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-o$y%*o^+^f%-)s=%-n=w@q+-!crfp41h)!%yz-l+1@x&3_b8w_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -159,3 +159,5 @@ COMPRESS_ROOT = BASE_DIR / 'static'
 COMPRESS_ENABLED = True
 
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+
+WSGI_APPLICATION = 'vercel_app.wsgi.app'
